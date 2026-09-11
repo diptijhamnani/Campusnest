@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CampusNest 2.0 | Smart Student Dashboard</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        body {
+            background: #07112f;
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background: #081638;
+            border-right: 1px solid rgba(60, 180, 255, 0.25);
+            padding: 25px 18px;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: #29bfff;
+        }
+
+        .tagline {
+            font-size: 11px;
+            color: #91a8ce;
+            margin-bottom: 35px;
+        }
+
+        .menu-title {
+            color: #627aa8;
+            font-size: 10px;
+            text-transform: uppercase;
+            margin: 20px 10px 10px;
+            letter-spacing: 1px;
+        }
+
+        .menu a {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            color: #b9c8e5;
+            text-decoration: none;
+            padding: 12px 13px;
+            border-radius: 10px;
+            margin-bottom: 5px;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            background: linear-gradient(90deg, #1261c9, #168bd7);
+            color: white;
+            box-shadow: 0 5px 20px rgba(20, 130, 230, 0.25);
+        }
+
+        .icon {
+            font-size: 18px;
+            width: 23px;
+        }
+
+        /* ================= MAIN ================= */
+
+        .main {
+            margin-left: 250px;
+            padding: 30px;
+            max-width: 1600px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+
+        .welcome h1 {
+            font-size: 29px;
+            margin-bottom: 7px;
+        }
+
+        .welcome p {
+            color: #8fa7d0;
+            font-size: 14px;
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #0d2049;
+            padding: 8px 15px;
+            border-radius: 30px;
+            border: 1px solid rgba(80,180,255,0.18);
+        }
+
+        .profile-pic {
+            width: 37px;
+            height: 37px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #168cff, #35d6ff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* ================= STATS ================= */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: linear-gradient(145deg, #0e2452, #0a1a3c);
+            border: 1px solid rgba(65,180,255,0.18);
+            border-radius: 16px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::after {
+            content: "";
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            right: -30px;
+            top: -30px;
+            background: #168cff;
+            opacity: 0.08;
+            border-radius: 50%;
+        }
+
+        .stat-icon {
+            font-size: 24px;
+            margin-bottom: 12px;
+        }
+
+        .stat-number {
+            font-size: 27px;
+            font-weight: 700;
+        }
+
+        .stat-label {
+            color: #91a8ce;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        /* ================= GRID ================= */
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 20px;
+        }
+
+        .card {
+            background: #0b1d43;
+            border: 1px solid rgba(65,180,255,0.18);
+            border-radius: 17px;
+            padding: 22px;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-title h2 {
+            font-size: 18px;
+        }
+
+        .view {
+            color: #36c7ff;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        /* ================= OPPORTUNITIES ================= */
+
+        .opportunity {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(150,180,220,0.08);
+        }
+
+        .opportunity:last-child {
+            border-bottom: none;
+        }
+
+        .opp-icon {
+            width: 44px;
+            height: 44px;
+            background: #102c61;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 21px;
+        }
+
+        .opp-info {
+            flex: 1;
+        }
+
+        .opp-info h3 {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .opp-info p {
+            color: #849bc2;
+            font-size: 11px;
+        }
+
+        .eligible {
+            background: rgba(54, 214, 144, 0.13);
+            color: #4be09c;
+            padding: 6px 9px;
+            border-radius: 20px;
+            font-size: 10px;
+            white-space: nowrap;
+        }
+
+        /* ================= PROGRESS ================= */
+
+        .subject {
+            margin-bottom: 19px;
+        }
+
+        .subject-top {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 7px;
+            font-size: 12px;
+        }
+
+        .subject-top span:last-child {
+            color: #36c7ff;
+        }
+
+        .progress {
+            height: 7px;
+            background: #172c52;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            border-radius: 20px;
+            background: linear-gradient(90deg, #1679e8, #38d0ff);
+        }
+
+        /* ================= CALENDAR ================= */
+
+        .event {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 0;
+        }
+
+        .date-box {
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            background: #102e63;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .date-box strong {
+            color: #3acbff;
+            font-size: 16px;
+        }
+
+        .date-box small {
+            color: #8ca4c8;
+            font-size: 9px;
+        }
+
+        .event-info h3 {
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+
+        .event-info p {
+            color: #839bc1;
+            font-size: 10px;
+        }
+
+        /* ================= SKILLS ================= */
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .skill {
+            background: #102a5b;
+            color: #9fdfff;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            border: 1px solid rgba(50,180,255,0.18);
+        }
+
+        .passport {
+            display: flex;
+            gap: 15px;
+            margin-top: 17px;
+        }
+
+        .passport-stat {
+            flex: 1;
+            background: #091938;
+            padding: 13px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .passport-stat strong {
+            display: block;
+            font-size: 20px;
+            color: #39caff;
+        }
+
+        .passport-stat span {
+            font-size: 9px;
+            color: #839bc1;
+        }
+
+        /* ================= AI ================= */
+
+        .ai-box {
+            background: linear-gradient(135deg, #102d61, #0c2047);
+            border: 1px solid rgba(56,200,255,0.25);
+            border-radius: 15px;
+            padding: 18px;
+        }
+
+        .ai-heading {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .ai-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1388ef, #35d8ff);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 21px;
+        }
+
+        .ai-heading h3 {
+            font-size: 14px;
+        }
+
+        .ai-heading p {
+            color: #8fa8d0;
+            font-size: 10px;
+        }
+
+        .ai-input {
+            display: flex;
+            gap: 8px;
+        }
+
+        .ai-input input {
+            flex: 1;
+            background: #071633;
+            border: 1px solid #1a3768;
+            border-radius: 9px;
+            padding: 11px;
+            color: white;
+            outline: none;
+        }
+
+        .ai-input button {
+            border: none;
+            background: #168be8;
+            color: white;
+            padding: 0 16px;
+            border-radius: 9px;
+            cursor: pointer;
+        }
+
+        /* ================= HELP ================= */
+
+        .help-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .help-btn {
+            background: #10254f;
+            border: 1px solid rgba(60,170,255,0.12);
+            border-radius: 10px;
+            padding: 12px;
+            color: #b8cae5;
+            cursor: pointer;
+            font-size: 11px;
+            text-align: left;
+        }
+
+        .help-btn:hover {
+            border-color: #27bfff;
+            color: white;
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media(max-width: 1000px) {
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media(max-width: 700px) {
+
+            .sidebar {
+                width: 70px;
+                padding: 20px 8px;
+            }
+
+            .logo {
+                font-size: 17px;
+                text-align: center;
+            }
+
+            .tagline,
+            .menu-title,
+            .menu a span {
+                display: none;
+            }
+
+            .menu a {
+                justify-content: center;
+                padding: 13px 5px;
+            }
+
+            .main {
+                margin-left: 70px;
+                padding: 18px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .welcome h1 {
+                font-size: 21px;
+            }
+
+            .profile {
+                padding: 6px;
+            }
+
+            .profile-name {
+                display: none;
+            }
+        }
+
+        @media(max-width: 450px) {
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+        CAMPUS<span>NEST</span>
+    </div>
+
+    <div class="tagline">
+        Your College. Your Growth.
+    </div>
+
+    <nav class="menu">
+
+        <div class="menu-title">Main</div>
+
+        <a href="#" class="active">
+            <div class="icon">🏠</div>
+            <span>Dashboard</span>
+        </a>
+
+        <a href="#">
+            <div class="icon">🚀</div>
+            <span>Opportunity Radar</span>
+        </a>
+
+        <a href="#">
+            <div class="icon">📚</div>
+            <span>Study & Progress</span>
+        </a>
+
+        <a href="#">
+            <div class="icon">📅</div>
+            <span>Smart Calendar</span>
+        </a>
+
+        <div class="menu-title">Student</div>
+
+        <a href="#">
+            <div class="icon">🪪</div>
+            <span>Skill Passport</span>
+        </a>
+
+        <a href="#">
+            <div class="icon">🤖</div>
+            <span>Campus AI</span>
+        </a>
+
+        <a href="#">
+            <div class="icon">🆘</div>
+            <span>Help Desk</span>
+        </a>
+
+        <a href="#">
+            <div class="icon">📍</div>
+            <span>Campus Map</span>
+        </a>
+
+        <div class="menu-title">College</div>
+
+        <a href="#">
+            <div class="icon">📢</div>
+            <span>Notices</span>
+        </a>
+
+        <a href="#">
+            <div class="icon">🎓</div>
+            <span>Events</span>
+        </a>
+
+    </nav>
+
+</aside>
+
+
+<!-- ================= MAIN CONTENT ================= -->
+
+<main class="main">
+
+    <!-- TOP BAR -->
+
+    <div class="topbar">
+
+        <div class="welcome">
+            <h1>Good Morning, Student 👋</h1>
+            <p>Here's what matters to you today.</p>
+        </div>
+
+        <div class="profile">
+            <div class="profile-pic">S</div>
+
+            <div class="profile-name">
+                <strong>Student</strong>
+                <small style="display:block;color:#8da5ca;">
+                    BCA • Semester 3
+                </small>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- ================= STAT CARDS ================= -->
+
+    <section class="stats">
+
+        <div class="stat-card">
+            <div class="stat-icon">📚</div>
+            <div class="stat-number">2</div>
+            <div class="stat-label">Tasks Due</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">🚀</div>
+            <div class="stat-number">3</div>
+            <div class="stat-label">Matched Opportunities</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">📅</div>
+            <div class="stat-number">1</div>
+            <div class="stat-label">Event Today</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">🔔</div>
+            <div class="stat-number">4</div>
+            <div class="stat-label">New Notices</div>
+        </div>
+
+    </section>
+
+
+    <!-- ================= DASHBOARD GRID ================= -->
+
+    <div class="dashboard-grid">
+
+        <!-- LEFT COLUMN -->
+
+        <div>
+
+            <!-- OPPORTUNITY RADAR -->
+
+            <section class="card">
+
+                <div class="card-title">
+                    <h2>🚀 Opportunity Radar</h2>
+                    <div class="view">View All →</div>
+                </div>
+
+
+                <div class="opportunity">
+
+                    <div class="opp-icon">💼</div>
+
+                    <div class="opp-info">
+                        <h3>Web Development Internship</h3>
+                        <p>Deadline: 18 Sept • BCA Sem 3+</p>
+                    </div>
+
+                    <div class="eligible">
+                        ✓ Eligible
+                    </div>
+
+                </div>
+
+
+                <div class="opportunity">
+
+                    <div class="opp-icon">🏆</div>
+
+                    <div class="opp-info">
+                        <h3>National Hackathon 2026</h3>
+                        <p>Registration closes: 22 Sept</p>
+                    </div>
+
+                    <div class="eligible">
+                        ✓ Eligible
+                    </div>
+
+                </div>
+
+
+                <div class="opportunity">
+
+                    <div class="opp-icon">🎓</div>
+
+                    <div class="opp-info">
+                        <h3>Student Scholarship Program</h3>
+                        <p>Last date: 30 Sept • Eligibility check</p>
+                    </div>
+
+                    <div class="eligible">
+                        ✓ Matched
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- STUDY PROGRESS -->
+
+            <section class="card">
+
+                <div class="card-title">
+                    <h2>📚 Semester Progress</h2>
+                    <div class="view">Details →</div>
+                </div>
+
+
+                <div class="subject">
+
+                    <div class="subject-top">
+                        <span>DBMS</span>
+                        <span>78%</span>
+                    </div>
+
+                    <div class="progress">
+                        <div class="progress-bar" style="width:78%"></div>
+                    </div>
+
+                </div>
+
+
+                <div class="subject">
+
+                    <div class="subject-top">
+                        <span>Java</span>
+                        <span>64%</span>
+                    </div>
+
+                    <div class="progress">
+                        <div class="progress-bar" style="width:64%"></div>
+                    </div>
+
+                </div>
+
+
+                <div class="subject">
+
+                    <div class="subject-top">
+                        <span>Computer Networking</span>
+                        <span>82%</span>
+                    </div>
+
+                    <div class="progress">
+                        <div class="progress-bar" style="width:82%"></div>
+                    </div>
+
+                </div>
+
+
+                <div class="subject">
+
+                    <div class="subject-top">
+                        <span>Web Development</span>
+                        <span>91%</span>
+                    </div>
+
+                    <div class="progress">
+                        <div class="progress-bar" style="width:91%"></div>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- SKILL PASSPORT -->
+
+            <section class="card">
+
+                <div class="card-title">
+                    <h2>🪪 Student Skill Passport</h2>
+                    <div class="view">Edit Profile →</div>
+                </div>
+
+                <div class="skills">
+
+                    <div class="skill">HTML</div>
+                    <div class="skill">CSS</div>
+                    <div class="skill">Java</div>
+                    <div class="skill">PHP</div>
+                    <div class="skill">MySQL</div>
+                    <div class="skill">Communication</div>
+                    <div class="skill">Teamwork</div>
+
+                </div>
+
+                <div class="passport">
+
+                    <div class="passport-stat">
+                        <strong>4</strong>
+                        <span>Certifications</span>
+                    </div>
+
+                    <div class="passport-stat">
+                        <strong>3</strong>
+                        <span>Projects</span>
+                    </div>
+
+                    <div class="passport-stat">
+                        <strong>72%</strong>
+                        <span>Skill Progress</span>
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+
+        <!-- RIGHT COLUMN -->
+
+        <div>
+
+            <!-- SMART CALENDAR -->
+
+            <section class="card">
+
+                <div class="card-title">
+                    <h2>📅 Smart Calendar</h2>
+                    <div class="view">Calendar →</div>
+                </div>
+
+
+                <div class="event">
+
+                    <div class="date-box">
+                        <strong>14</strong>
+                        <small>SEP</small>
+                    </div>
+
+                    <div class="event-info">
+                        <h3>DBMS Assignment</h3>
+                        <p>2 days remaining</p>
+                    </div>
+
+                </div>
+
+
+                <div class="event">
+
+                    <div class="date-box">
+                        <strong>18</strong>
+                        <small>SEP</small>
+                    </div>
+
+                    <div class="event-info">
+                        <h3>Web Internship Deadline</h3>
+                        <p>Apply before deadline</p>
+                    </div>
+
+                </div>
+
+
+                <div class="event">
+
+                    <div class="date-box">
+                        <strong>22</strong>
+                        <small>SEP</small>
+                    </div>
+
+                    <div class="event-info">
+                        <h3>Hackathon Registration</h3>
+                        <p>Registration closes</p>
+                    </div>
+
+                </div>
+
+
+                <div class="event">
+
+                    <div class="date-box">
+                        <strong>25</strong>
+                        <small>SEP</small>
+                    </div>
+
+                    <div class="event-info">
+                        <h3>College Seminar</h3>
+                        <p>Seminar & networking</p>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- CAMPUS AI -->
+
+            <section class="card">
+
+                <div class="card-title">
+                    <h2>🤖 Campus AI</h2>
+                </div>
+
+                <div class="ai-box">
+
+                    <div class="ai-heading">
+
+                        <div class="ai-circle">
+                            🤖
+                        </div>
+
+                        <div>
+                            <h3>CampusNest Assistant</h3>
+                            <p>Ask about your college</p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="ai-input">
+
+                        <input
+                            type="text"
+                            id="question"
+                            placeholder="Ask something..."
+                        >
+
+                        <button onclick="askAI()">
+                            Ask
+                        </button>
+
+                    </div>
+
+                    <p
+                        id="aiAnswer"
+                        style="font-size:11px;color:#83a0c9;margin-top:12px;"
+                    >
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <!-- HELP DESK -->
+
+            <section class="card">
+
+                <div class="card-title">
+                    <h2>🆘 Student Help Desk</h2>
+                    <div class="view">Track Request →</div>
+                </div>
+
+                <div class="help-buttons">
+
+                    <button class="help-btn">
+                        📄 Document Request
+                    </button>
+
+                    <button class="help-btn">
+                        📚 Academic Query
+                    </button>
+
+                    <button class="help-btn">
+                        💳 Fees Query
+                    </button>
+
+                    <button class="help-btn">
+                        🛠️ Technical Issue
+                    </button>
+
+                    <button class="help-btn">
+                        👨‍🏫 Faculty Contact
+                    </button>
+
+                    <button class="help-btn">
+                        💬 Suggestion
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <!-- QUICK ACCESS -->
+
+            <section class="card">
+
+                <div class="card-title">
+                    <h2>⚡ Quick Access</h2>
+                </div>
+
+                <div class="help-buttons">
+
+                    <button class="help-btn">
+                        📢 Latest Notices
+                    </button>
+
+                    <button class="help-btn">
+                        📖 Study Materials
+                    </button>
+
+                    <button class="help-btn">
+                        🎓 College Events
+                    </button>
+
+                    <button class="help-btn">
+                        📍 Campus Map
+                    </button>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script>
+
+function askAI() {
+
+    let question =
+        document.getElementById("question").value;
+
+    let answer =
+        document.getElementById("aiAnswer");
+
+    if (question.trim() === "") {
+
+        answer.innerText =
+            "Please type your question first.";
+
+        return;
+    }
+
+    answer.innerText =
+        "🤖 CampusNest AI: I’ll help you find the right college information for: "
+        + question;
+
+}
+
+</script>
+
+</body>
+</html>
